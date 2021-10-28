@@ -1,0 +1,285 @@
+AWS
+
+Region
+------
+ AZ - Availability Zones - Each region has many AZ's
+
+AWS Services are Global / Region Scoped
+
+IAM  - Identity and Access Management Global Service
+---------------------------------------------------
+User - Poeple in an organization
+Group - Only contain users
+ > Group can contains user from multiple group
+Permissions - Access policy defines permission for user / group on what to do, Its configured as JSON
+ > Ensure least privilige for user.
+
+Setup Admin account via root user and use it further.
+
+Role
+----
+The IAM Permission assigned to the service is Role.
+
+MFA
+---
+1. Virtual MFA (Google Authenticator / Authy)
+2. U2A (Universal 2nd Factor)
+3. Hardware Key Fob MFA
+4. AWS GovCloud
+
+Ways to access AWS Services
+1. Console
+2. CLI
+3. SDK
+
+IAM Security Tools - Audit
+------------------
+Credential Report - Org level 
+Access Advisor - User level access info 
+
+IAM Best Practice
+1. Assigne user -> group -> permission
+2. one physical user = aws user
+3. Never share credentials
+
+EC2 - Elastic Compute Cloud
+
+Security Group
+Acts an firewall
+> Regulate Ports
+> Authorized IP Ranges
+> Control or Inbound & Outbound
+> Can be attached to Multiple Instances
+> All inbound is blocked
+> All outbound is authorized.
+Any timeout issue is related to Security Group Issue
+
+Important Ports
+22 - SSH
+21 - FTP
+22 - SFTP
+80 - HTTP
+443 - HTTPS
+3389 - RDP ( Specific for Windows)
+
+EC2 Purchase Options
+1. On-Demand - Short Time (Unpredictable Time)
+	Linux - Pay per second
+	Window - Pay per hour
+2. Reserved Instances ( Huge Cost Saving by Discount)
+	> Reserved Instances (Reserve the instase for 1 or 3 years by choosing instance type)
+	> Covertible Reserved Instances - (Can change Ec2 instance type, less discount) 
+	> Scheduled Reserved Instances - (Reserve by Timing)
+3. Spot Instances
+	> 90% Discount - Most cost efficient
+	> Instance can loose at any point
+	> Useful for workload that are resilent to failure
+		> Batch Jobs
+		> Image Processing
+4. Dedicated Hosts ( Entire Physical Server
+	> Address Compilance requirements / regulatory
+	> Bring your own license
+	> 3 year reservation
+5. EC2 Dedicated Instance
+	> Hardware dedicated to you.
+	> May share hardware within the same account
+IPv4 
+----
+Public Ip - Can be access across everywhere and its unique
+Private Ip - Can be access inside a private network. In order to access the internet, Internet Gateway is required.
+Elastic Ip - Reserved Public IP for an resource, the will not change when the resource is start / stop
+
+EC2 Instance come with both private and public ip
+
+Spot Instance 
+	Create or Stop instance based on the bidding
+	Termination: Instance should be in active, open & disable.
+	Cancel Spot Request -> Terminate Instance
+Spot Fleets
+	A set of spot instances + On Demand (optional)
+	Meet target capacity with price constaints
+		> Possible Launch Pools
+		> Can have multiple launch pools, so that fleet can choose
+		> Stops launc when it reaches max cost or capacity
+Strategy to Allocate Spot Fleet
+	> lowestPrice - Cost Optimization - Short Workload
+	> divirsifed - Avaliablity & long Workload
+	> capacityOptimized - Pool with optimal capacity for no of instances
+Spot fleet allow us to automatically reqest spot instances with low cost.
+
+EC2 Placement Group - EC2 Hardware Placement
+Type of Placement Group
+1. Cluster - Placement group with low latency network, all instances in same rack, AZ
+	Great Network
+	If rack fails all instance fails
+	UC: Big Data Job & App with low latency and high n/w throughput.
+2. Spread - All EC2 instances in diff hardware and mutliple AZ
+	> Reduce Risk
+	> Limited to 7 instance per AZ per placement group
+	> UC: High Availability Application
+3. Partition - Instances are partitioned within the AZ and region
+	> 7 Partitions pers AZ
+	> Span across multiple AZ in same region
+	> Up to 100 EC2s
+	> Same instance rack is not shared with partitions
+	> EC2 get access to partition info as metadata
+	> UC: HBase, Cassandra, Kafka
+
+ENI - Elastic Network Interface
+-------------------------------
+A logical componenet in VPC which represents the network card
+ENI Attributes
+	> Primary Private IPv4 and secondary
+	> 1 Public IPv4
+	> One or more SG
+	> A MAc address
+ENI Shall be created independently and attached to EC2
+Bound to AZ
+
+EC2 Hibernate - Persist the RAM state by storing it in EBS 
+	> Supported Instances C/M/R (3-5)
+	> RAM Size must be < 50GB
+	> Not supported for Bare Metal
+	> Root Volume must be EBS, encrypted
+	> Avl on On-Demand & Reserved Instances
+	> Hiberate cannot be more than 60 days.
+EC2 Nitro
+	> Avanced Virtualization Technology
+	> Higher EBS IOPS Speed (64K IOPS Nitro, 32k IOPS NonNitro)
+vCPU
+	> A core is a CPU, core can contains multiple threads (Multithreading)
+	> Core * Thread (1 Core * 2 Thread = 2vCPU)
+	> Reduce cores for CPU Optimization
+	> For HPC have one threads per core. Disable multi threading.
+
+EBS - Elastic Block Store
+-------------------------
+	> Network Drive to store data via network
+	> Available with in AZ
+	> Have a provisioned capacity, can increase capacity
+	> More than 1 EBS shall be attached to EC2 instances
+	> EC2 Termination may delete the volume based on configuration
+EBS Snapshot
+------------
+	> Backup of EBS volume
+	> EBS Detach is not necessary for snapshot, but recomended
+	> Can tranfered within AZ or Region
+EBS Volume Types
+	> General Purpose SSD (gp2/gp3) - Low latency interactive apps ( Dev/ Test env)
+		> 1 GB - 16 TB
+		> gp3 - Baseline 3000 IOPS & Throughput 125 MB. IOPS can increase upto 16k & Throughput 1000 MiB
+		> gp2 - Small volumes can burst 3k IOPS, max 16k IOPS. 3IOPS per GiB
+	> Provisioned IOPS (io1/io2) - High Performance Workload require millisecond latency
+		> io1 - Max PIOPS: 64K - Nitro EC2; 32k for EC2 - Durable and more PIOPS per GB	
+		> io2 Block Express (4-64 TiB) - Sub Milli second latency - Max PIOPS 256K IOPS with 1000 IOPS per GiB ratio
+		> Support EBS Multi Attach
+	> st1(HDD) - Low cost HDD volume designed for throughput intensive work load
+		> Big Data Warehousing		
+	> sc1(HDD) - Low cost designed for less frequent access work load
+		> Archival - Cold Storage
+Only gp2/3 - io1/2 shall be used as boot volume.
+Multi Attach Supported only in (io1 & io2)
+	> Same EBS shall be used by multiple EC2 instances in same AZ
+	> UC: High application availability; Concurret application processing
+	> Must use File system thats cluster aware
+EBS Encryption
+	> Data at rest is encrypted
+	> Data in flight moving between instance is encrypted
+	> All snapsots are encrypted & volumes
+	> Encryption has minimal impact on latency
+	> EBS Encryption leverages keys from KMS (AES-256)
+	
+EBS Characteristics
+-------------------
+IOPS - Number of read / write per second
+Throughput - Rate of data transfer per second.
+Size
+
+AMI - Amazon Machine Image
+--------------------------
+AMI are customization of an EC2 Instance
+Create your own AMI
+AWS Market place - Community / Seller
+
+Process
+	Start EC2 -> Customize -> Stop -> Build AMI -> Use it across regions
+EC2 Instance Store - Hardware disc attached to EC2. Special type of EC2 support Instance store
+	> High Performance
+	> Ephemreal Storage 
+	> Good for buffer / cache / temporary data
+	> Risk of data loss if hardware fails
+	
+EBS RAID - Redudant Array of Independent Disks
+--------
+	> OS Level Configuration
+RAID 0 (Stripping)
+	> Increased Performance but not fault tolerant
+	> Mutlipe EBS as logical volume, if one volume fails all the data is lost
+	> Huge Disc with high IOPS
+	> Used for data replication or an app needs high IOPS
+RAID 1 ( Mirroring - Increased Fault Tolerance)
+	> Multiple EBS attached to EC2 and data is mirrored to both
+	> Send data to 2 EBS is 2x network utilization
+
+EFS Elastic File System
+-----------------------
+	> Network file system shall be mounted to many EC2's, available across region.
+	> US: CMS, Data Sharing, Web Serving
+	> LINUX based AMI Only
+	> Use SG to controll access
+	> POSIX File System
+EFS - Performance
+	> 1K Concurrent NFS Clients, 10 GB+ /s throughput
+	> Grow to Pentabyte scale n/w File system
+	> GP Mode- latency sensitive use cases (CMS)
+	> MAX I/O Mode - High latency throughput, parallel processing - Big data / Media Processing
+	> Provision your throughput regardless of size
+	> Tiers - Standard / Infrequent Access (Cost for retrieval)
+
+
+	
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	 	 	
+
+
+	
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+ 

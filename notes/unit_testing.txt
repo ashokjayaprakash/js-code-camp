@@ -1,0 +1,29 @@
+mocha - UT Framework
+chai - Assersion library (To verify the given condition in easier and better way)
+ts-node - To write tests in TS.
+typings/@type - Type definition manager, which helps with TS assertion.
+
+async-await - In promise
+
+Mocha
+
+A unit testing framework, which supports assertion libray like chai, should & few others.
+
+> Usage of arrow function is not advisable, due to lack of mocha context(this) inside the function.
+
+> Hooks - Hooks to run based on the usage
+	> before
+	> after
+	> beforeEach
+	> afterEach
+- Use hooks description 
+
+> describe.only (To run only)
+> describe.skip (To skip the test)
+
+> Reportes
+> TDD - suite
+> Qunit
+
+> Folder Structure
+
