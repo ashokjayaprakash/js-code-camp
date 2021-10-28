@@ -1,0 +1,96 @@
+TypeScript (A statically typed superset of Javascript that compiles to plain Javascript)
+------------------------------
+Static Type - Bridges devloper (Code navigation)
+V8 Runtime / Docker RunTime
+Codeplex
+
+VS Code (Devloped in TypeScript/ Runs on VM Electron Shell Webkit/Node/V8 Desktop Apps)
+
+Adding Type 
+
+Interface Declaration
+
+Declaration File (Header File of Vs Code)
+
+Type Information
+
+tsc -init -> Intialize tsconfig.json
+tsc -w -> watch mode
+
+TS Compiler options to choose target.
+Check Js
+
+Real word usage of TS
+-------------------------------------
+AppScript intially planed by google then TS collabrated
+
+Decorator
+
+Vue.js
+
+Non Nullable types Discrimated Unitons
+Control flow analysis
+@types Definition files
+
+Nightly build (Virtual Cycle)
+
+Control flow based type analysis
+
+let count = 0;
+
+OptionalParameter (?) 
+Parameter can be null/string (string | null)[]
+
+type - Defining a type
+
+JS Type Checking (loadash)
+
+Type Info by Type Provision.
+
+Tuple/lookup/mapped types
+
+Rust/Small Talk (New languages)
+
+Redmont programming language surveyer.
+
+TypeScript Handbook - https://www.typescriptlang.org/docs/handbook/basic-types.html
+-------------------------------------------------------------------------------------------
+Basic Types
+-> boolean
+-> number
+-> string
+-> Array
+	-> Element type number[]
+	-> Generic type Array<number>
+-> Tuple - Express an array where the type of a fixed number of elements.
+	let x: [string, number];
+	x = ["name", 10];
+It will be an union type when elements accessed outside of its index.
+	x[2] = string or number (Union Type)
+-> enum
+	enum Color {Red, Green, Blue}
+	let c: Color = Color.Green;
+-> any
+	-> Type checking will not be performed.
+	-> any , any[]
+-> void
+	function warnUser(): void {}
+-> null and undefinded are types and also sub types of remaining
+-> never - Returns the type of value which never occurs.
+
+-> interface - Shape of the object
+-> readonly - Not modifying object attributes
+
+Subtype vs Assignment
+
+> Symbols
+To handle dynamic keys
+
+for in - to iterate over the key 
+for of - to iterate over the, only iteratable over array,map,set, string
+
+Modules
+
+Modules are executed within their own scope, not in global scope. Inorder to make it accessible, it needs to be exported and then imported.
+
+Module loader - To load modules (CommonJs/RequireJS)

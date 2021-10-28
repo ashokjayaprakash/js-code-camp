@@ -1,0 +1,6 @@
+* Launch Template vs launch configuration
+* S3 Deep look up
+* VPC
+* Type can be changed if it has an EBS store volume root devic
+
+

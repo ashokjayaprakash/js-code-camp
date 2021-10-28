@@ -1,0 +1,67 @@
+Image Formats
+------------------
+JPEG - Lossy compression
+RAW - High Quality. Loseless compression (ENI / CRW)
+DNG - Archival format for RAW captures
+
+Editing Master File Format:
+PSD / TIFF - Contains layers
+
+Color Mode 
+Bit Depth - Greyscale (8 bit) | 256 Possible Value
+Index color - 1 Channel - Small File Size | 256 Possible Value
+RGB - 3 Channel | 256 colors per channel
+
+16bit depth / 32 Depth 
+
+32 Bit - High Dynamic Range - HDR Images (More colors)
+
+Bit depth (8 / 16 /32) - More color options based on bit depth
+
+Color Space
+--------------
+Additive Color - RGB to create white in Monitor
+Attractive Color - CYMK to create black in Printing Technoloy
+
+sRGB - Small color space - Web Graphics.
+Adobe RGB - Photoshop
+ProPhoto RGB - Largest color space, few colors may not visibile on monitor.
+CYMK - Limited color, specific to printing press.
+
+Document Size:
+Lines Per Inch - LPI
+Pixels per inch - PPI
+
+Resolution - 240 - 360
+
+Continious Tone Printing in Lab - 300 PPI
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+Sinon - Test Doubles (Stunt Doubles)
+----------------------------------------
+
+Spies (Spy)
+> To get info ablut function calls
+
+Stub
+> Modifying function behaviour
